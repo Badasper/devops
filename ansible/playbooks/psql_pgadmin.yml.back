@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: Add APT key for postgresql
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        state: present
+
+    - name: release name
+      shell: lsb_release -cs 
+      register: lsb_release
+
+    - name: Add repository for postgresql
+      apt_repository:
+              #repo: deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ "{{ lsb_release.stdout }}"-pgdg main
+        repo: deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+        state: present
+        filename: pg
+        
+    - include_tasks: update_cache.yml
+
+    - name: Install postgresql
+      apt:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { state: "latest", name: "postgresql" }
+        - { state: "latest", name: "postgresql-contrib" }
+        - { state: "latest", name: "pgadmin4" }
+        - { state: "latest", name: "pgadmin4-apache2" }
+        - { state: "latest", name: "pgadmin3" }

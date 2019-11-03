@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - include_tasks: update_cache.yml
+
+    - name: Install pip3
+      apt:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { state: "latest", name: "python3-pip" }
+      notify: install pipenv for python3
+    - name: try to install pipenv for python3
+      pip:
+        name: pipenv
+
+  handlers:
+    - name: install pipenv for python3
+      pip:
+        name: pipenv

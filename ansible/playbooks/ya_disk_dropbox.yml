@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Add APT key for yandex-disk
+      apt_key:
+        url: http://repo.yandex.ru/yandex-disk/YANDEX-DISK-KEY.GPG
+        state: present
+
+    - name: Add repository for yandex-disk
+      apt_repository:
+        repo: deb http://repo.yandex.ru/yandex-disk/deb/ stable main
+
+        state: present
+        filename: yandex-disk
+        
+    - include_tasks: update_cache.yml
+
+    - name: Install yandex-disk and dropbox
+      apt:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { state: "latest", name: "yandex-disk" }
+        - { state: "latest", name: "dropbox" }

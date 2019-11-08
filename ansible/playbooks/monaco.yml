@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+    - name: create directory for font
+      file:
+        path: /usr/share/fonts/truetype/ttf-monaco
+        state: directory
+    - name: wget ttf manoca
+      get_url:
+        url: http://www.gringod.com/wp-upload/software/Fonts/Monaco_Linux.ttf
+        dest: /usr/share/fonts/truetype/ttf-monaco/Monaco_Linux.ttf
+    - name: create an index of X font files in a directory
+      command: mkfontdir /usr/share/fonts/truetype/ttf-monaco/
+    - name: fc-cache
+      command: fc-cache -f -v /usr/share/fonts/truetype/

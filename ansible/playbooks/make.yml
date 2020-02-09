@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  become: true
+- import_playbook: monaco.yml
+- import_playbook: pip3_pipenv.yml
+- import_playbook: psql_pgadmin.yml
+- import_playbook: vbox_vagrant.yml
+- import_playbook: vscode.yml
+- import_playbook: ya_disk_dropbox.yml
+- import_playbook: upgrade.yml
+

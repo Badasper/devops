@@ -1,2 +1,2 @@
 install:
-				ansible-playbook -i host.ini -K make.yml
+		ansible-playbook -i host.ini -K make.yml

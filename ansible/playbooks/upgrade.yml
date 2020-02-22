@@ -3,17 +3,16 @@
 - hosts: all
   become: true
   tasks:
+    - include_tasks: update_cache.yml
+
     - name: apt upgrade
       apt:
         upgrade: yes
-    - name: autoremove
-      apt:
-        autoremove: yes
+ 
     - name: autoclean
       apt:
         purge: yes
+
     - name: dist upgrade
       apt:
         upgrade: dist
-
-     

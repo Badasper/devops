@@ -8,4 +8,5 @@
 - import_playbook: vbox_vagrant.yml
 - import_playbook: vscode.yml
 - import_playbook: ya_disk_dropbox.yml
+- import_playbook: nvm_npm.yml
 - import_playbook: upgrade.yml

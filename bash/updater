@@ -30,8 +30,16 @@ fi
 if sudo apt-get autoclean -yy
   then echo -e "\e[32m########## autoclean end! #################\e[39m"
 fi
-echo        -e "\e[32m########## Программа завершена, by! #######\e[39m"
 
+echo -e        "\e[32m--------------------------- Удаление sanp пакетов --------------------------\e[39m"
+sudo snap refresh;
+echo "snap refreshed"
+snap list --all | awk '/disabled/{print $1, $3}' | while read snapname revision; do
+
+sudo snap remove "$snapname" --revision="$revision"
+done
+echo "old snap snapshots are removed"
+echo        -e "\e[32m########## Программа завершена, by! #######\e[39m"
 
 duration=$SECONDS
 echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
